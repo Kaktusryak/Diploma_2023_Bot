@@ -21,7 +21,7 @@ UserId = -1
 
 UserNickname = ''
 
-openai.api_key="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"
+openai.api_key="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"
 
 
 class Advice(StatesGroup):
@@ -235,7 +235,7 @@ async def add_handler(message: types.Message, state: FSMContext):
         Answer='Top 20:\n'
         parse_data=json.loads(data)
         for item in parse_data:
-            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+" [id="+str(item['id'])+"]"+'\n'
+            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+" [id="+str(item['id'])+"]"+'\n' + "Subscribers: " + str(item["numberOfSubscibers"]) + "\n"
             content_kb.add("Add "+ item['name'] + " [id="+str(item['id'])+"]")
         
         await message.reply(Answer,reply_markup=content_kb)
@@ -366,7 +366,7 @@ async def add_handler(message: types.Message, state: FSMContext):
         content_kb = ReplyKeyboardMarkup(resize_keyboard=True)
         content_kb.add("!Cancel")
         for item in parse_data['entities']:
-            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+"[id="+str(item['id'])+"]"+'\n'
+            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+"[id="+str(item['id'])+"]"+'\n' + "Subscribers: " + str(item["numberOfSubscibers"]) + "\n"
             response1 = requests.get('https://localhost:7117/api/content/' + str(item['id']),verify=False)
             content_kb.add("Add "+ item['name'] + " [id="+str(item['id'])+"]")
             data1 = response1.text
@@ -435,7 +435,8 @@ async def add_handler(message: types.Message, state: FSMContext):
         content_kb = ReplyKeyboardMarkup(resize_keyboard=True)
         content_kb.add("!Cancel")
         for item in parse_data['entities']:
-            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+" [id="+str(item['id'])+"]"+'\n'
+            Answer+="["+item['contentCategory']+"] "+item['name']+ ", " +item['releaseDate'][0:4]+" [id="+str(item['id'])+"]"+'\n' + "Subscribers: " + str(item["numberOfSubscibers"]) + "\n"
+
             response1 = requests.get('https://localhost:7117/api/content/' + str(item['id']),verify=False)
             content_kb.add("Add "+ item['name'] + " [id="+str(item['id'])+"]")
             data1 = response1.text
